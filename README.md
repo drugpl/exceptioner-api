@@ -71,33 +71,41 @@ There are three possible types of client errors on API calls that receive reques
 
 All error objects have resource and field properties so that your client can tell what the problem is. There’s also an error code to let you know what is wrong with the field. These are the possible validation error codes:
 
-missing
-:   This means a resource does not exist.
+- **missing**
 
-missing_field
-:   This means a required field on a resource has not been set.
+This means a resource does not exist.
 
-invalid
-:   This means the formatting of a field is invalid. The documentation for that resource should be able to give you more specific information.
+- **missing_field**
 
-already_exists
-:   This means another resource has the same value as this field. This can happen in resources that must have some unique key (such as Label names).
+This means a required field on a resource has not been set.
+
+- **invalid**
+
+This means the formatting of a field is invalid. The documentation for that resource should be able to give you more specific information.
+
+- **already_exists**
+
+This means another resource has the same value as this field. This can happen in resources that must have some unique key (such as Label names).
 
 ### HTTP Verbs
 
 Where possible, API v1 strives to use appropriate HTTP verbs for each action.
 
-HEAD
-:   Can be issued against any resource to get just the HTTP header info.
+- **HEAD**
 
-GET
-:   Used for retrieving resources.
+  Can be issued against any resource to get just the HTTP header info.
 
-POST
-:   Used for creating resources.
+- **GET**
 
-PATCH
-:   Used for updating resources with partial JSON data. A PATCH request may accept one or more of the attributes to update the resource. PATCH is a relatively new and uncommon HTTP verb, so resource endpoints also accept POST requests.
+  Used for retrieving resources.
+
+- **POST**
+
+  Used for creating resources.
+
+- **PATCH**
+
+  Used for updating resources with partial JSON data. A PATCH request may accept one or more of the attributes to update the resource. PATCH is a relatively new and uncommon HTTP verb, so resource endpoints also accept POST requests.
 
 ### Authentication
 
@@ -113,7 +121,7 @@ Token sent in a parameter:
 
 ### Pagination
 
-Requests that return multiple items will be paginated to 30 items by default. You can specify further pages with the ?page parameter. You can also set a custom page size up to 100 with the ?per_page parameter.
+Requests that return multiple items will be paginated to 30 items by default. You can specify further pages with the ``?page`` parameter. You can also set a custom page size up to 100 with the ``?per_page`` parameter.
 
     $ curl http://api.exceptioner.com/v1/errors?page=2&per_page=100
 
