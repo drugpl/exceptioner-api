@@ -127,39 +127,228 @@ Requests that return multiple items will be paginated to 30 items by default. Yo
 
 ## Notices
 
-### Create a notice
+### Show notice
 
-#### Parameters
+    GET /v1/notices/:id
 
 #### Response
+
+    Status: 200 OK
+
+    [
+      {
+        "id": 123,
+        "exception": "RuntimeError",
+        "message": "Run Forrest, run!",
+        "controller": "home#run",
+        "env": "production",
+        "reported_at": "2011-04-22T13:33:48Z",
+        "fingerprint": "da39a3ee5e6b4b0d3255bfef95601890afd80709"
+      }
+    ]
+
+### Create a notice
+
+    POST /v1/notices
+
+#### Input
+
+    {
+      "exception": "RuntimeError",
+      "message": "Run Forrest, run!",
+      "backtrace": "(irb):7:in `irb_binding'\n...",
+      "controller": "home#run",
+      "env": "production"
+    }
+
+#### Response
+
+    Status: 201 Created
+
+    {
+      "id": 123,
+      "exception": "RuntimeError",
+      "message": "Run Forrest, run!",
+      "controller": "home#run",
+      "env": "production",
+      "reported_at": "2011-04-22T13:33:48Z",
+      "fingerprint": "da39a3ee5e6b4b0d3255bfef95601890afd80709"
+    }
 
 ## Errors
 
 ### List errors for a project
 
+    GET /v1/errors
+
 #### Parameters
 
+**resolved**
+
+Include resolved errors, default: ``false``.
+
 #### Response
+
+    Status: 200 OK
+
+    [
+      {
+        "id": 1234,
+        "exception": "RuntimeError",
+        "message": "Run Forrest, run!",
+        "backtrace": "(irb):7:in `irb_binding'\n...",
+        "fingerprint": "da39a3ee5e6b4b0d3255bfef95601890afd80709",
+        "controller": "home#run",
+        "env": "production",
+        "resolved_at": "2011-05-21T14:23:22Z",
+        "created_at": "2011-04-22T13:33:48Z",
+        "updated_at": "2011-04-22T13:33:48Z",
+        "count": 13
+      }
+    ]
+
 
 ### Get a single error
 
-#### Parameters
+    GET /v1/errors/:id
 
 #### Response
+
+    Status: 200 OK
+
+    {
+      "id": 1234,
+      "exception": "RuntimeError",
+      "message": "Run Forrest, run!",
+      "backtrace": "(irb):7:in `irb_binding'\n...",
+      "fingerprint": "da39a3ee5e6b4b0d3255bfef95601890afd80709",
+      "controller": "ApplicationController",
+      "env": "production",
+      "resolved": true,
+      "resolved_at": "2011-05-21T14:23:22Z",
+      "created_at": "2011-04-22T13:33:48Z",
+      "updated_at": "2011-05-21T14:23:22Z",
+      "count": 2
+      "notices": [
+        {
+          "id": 12345
+          "message": "Slow motion",
+          "reported_at": "2011-04-22T13:36:11Z"
+        },
+        {
+          "id": 12346
+          "message": "Run Forrest, run!",
+          "reported_at": "2011-04-22T13:38:45Z"
+        }
+      ]
+    }
 
 ### Edit an error
 
-#### Parameters
+    PATCH /v1/errors/:id
+
+#### Input
+
+    {
+      "resolved": true
+    }
 
 #### Response
+
+
+    Status: 200 OK
+
+    {
+      "id": 1234,
+      "exception": "RuntimeError",
+      "message": "Run Forrest, run!",
+      "backtrace": "(irb):7:in `irb_binding'\n...",
+      "fingerprint": "da39a3ee5e6b4b0d3255bfef95601890afd80709",
+      "controller": "ApplicationController",
+      "env": "production",
+      "resolved": true,
+      "resolved_at": "2011-05-21T14:23:22Z",
+      "created_at": "2011-04-22T13:33:48Z",
+      "updated_at": "2011-05-21T14:23:22Z",
+      "count": 2
+      "notices": [
+        {
+          "id": 12345
+          "message": "Slow motion",
+          "reported_at": "2011-04-22T13:36:11Z"
+        },
+        {
+          "id": 12346
+          "message": "Run Forrest, run!",
+          "reported_at": "2011-04-22T13:38:45Z"
+        }
+      ]
+    }
 
 ## Deployments
 
-### Create a deployment
+### List deployments
 
-#### Parameters
+    GET /v1/deploys
 
 #### Response
+
+    Status: 200 OK
+
+    [
+      {
+        "id": 1234,
+        "environment": "production",
+        "deployed_at": "2011-05-12T23:01:05Z",
+        "deployed_by": "pawelpacana",
+        "repository": "git@github.com:drugpl/exceptioner-api.git",
+        "revision": "e3b62dbc4e7b6301d37c591772d9aa76bd230cb6"
+      }
+    ]
+
+### Show deployment
+
+    GET /v1/deploys/:id
+
+#### Response
+
+    Status: 200 OK
+
+    {
+      "id": 1234,
+      "environment": "production",
+      "deployed_at": "2011-05-12T23:01:05Z",
+      "deployed_by": "pawelpacana",
+      "repository": "git@github.com:drugpl/exceptioner-api.git",
+      "revision": "e3b62dbc4e7b6301d37c591772d9aa76bd230cb6"
+    }
+
+### Create a deployment
+
+    POST /v1/deploys
+
+#### Input
+
+    {
+      "environment": "production",
+      "deployed_by": "pawelpacana",
+      "repository": "git@github.com:drugpl/exceptioner-api.git",
+      "revision": "e3b62dbc4e7b6301d37c591772d9aa76bd230cb6"
+    }
+
+#### Response
+
+    Status: 201 Created
+
+    {
+      "id": 1234,
+      "environment": "production",
+      "deployed_at": "2011-05-12T23:01:05Z",
+      "deployed_by": "pawelpacana",
+      "repository": "git@github.com:drugpl/exceptioner-api.git",
+      "revision": "e3b62dbc4e7b6301d37c591772d9aa76bd230cb6"
+    }
+
 
 Copyright
 ---------
