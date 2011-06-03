@@ -83,10 +83,6 @@ This means a required field on a resource has not been set.
 
 This means the formatting of a field is invalid. The documentation for that resource should be able to give you more specific information.
 
-**already_exists**
-
-This means another resource has the same value as this field. This can happen in resources that must have some unique key (such as Label names).
-
 ### HTTP Verbs
 
 Where possible, API v1 strives to use appropriate HTTP verbs for each action.
