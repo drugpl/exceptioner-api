@@ -127,9 +127,9 @@ Requests that return multiple items will be paginated to 30 items by default. Yo
 
 ## Notices
 
-### Show notice
+### List of notices for error
 
-    GET /v1/notices/:id
+    GET /v1/errors/:error_id/notices
 
 #### Response
 
@@ -138,14 +138,28 @@ Requests that return multiple items will be paginated to 30 items by default. Yo
     [
       {
         "id": 123,
-        "exception": "RuntimeError",
-        "message": "Run Forrest, run!",
-        "controller": "home#run",
-        "env": "production",
-        "reported_at": "2011-04-22T13:33:48Z",
-        "fingerprint": "da39a3ee5e6b4b0d3255bfef95601890afd80709"
+        "error_id": 34567,
+        "message": "RuntimeError: Run Forrest, run!",
+        "created_at": "2011-04-22T13:33:48Z",
+        "updated_at": "2011-04-22T13:33:48Z"
       }
     ]
+
+### Show notice
+
+    GET /v1/errors/:error_id/notices/:id
+
+#### Response
+
+    Status: 200 OK
+
+    {
+      "id": 123,
+      "error_id": 34567,
+      "message": "RuntimeError: Run Forrest, run!",
+      "created_at": "2011-04-22T13:33:48Z",
+      "updated_at": "2011-04-22T13:33:48Z"
+    }
 
 ### Create a notice
 
@@ -154,11 +168,21 @@ Requests that return multiple items will be paginated to 30 items by default. Yo
 #### Input
 
     {
-      "exception": "RuntimeError",
-      "message": "Run Forrest, run!",
-      "backtrace": "(irb):7:in `irb_binding'\n...",
-      "controller": "home#run",
-      "env": "production"
+      "message": "RuntimeError: Run Forrest, run!",
+      "created_at": "2011-04-22T13:33:48Z",
+      "updated_at": "2011-04-22T13:33:48Z"
+      "error": {
+        "exception": "RuntimeError",
+        "backtrace": [
+          "(irb):7:in `irb_binding`",
+          "...",
+          "..."
+        ],
+        "controller": "home",
+        "action": "run",
+        "file": "[PROJECT_ROOT]/app/controllers/home_controller.rb",
+        "env": "production"
+      }
     }
 
 #### Response
@@ -167,12 +191,10 @@ Requests that return multiple items will be paginated to 30 items by default. Yo
 
     {
       "id": 123,
-      "exception": "RuntimeError",
-      "message": "Run Forrest, run!",
-      "controller": "home#run",
-      "env": "production",
-      "reported_at": "2011-04-22T13:33:48Z",
-      "fingerprint": "da39a3ee5e6b4b0d3255bfef95601890afd80709"
+      "error_id": 34567,
+      "message": "RuntimeError: Run Forrest, run!",
+      "created_at": "2011-04-22T13:33:48Z",
+      "updated_at": "2011-04-22T13:33:48Z"
     }
 
 ## Errors
@@ -195,15 +217,17 @@ Include resolved errors, default: ``false``.
       {
         "id": 1234,
         "exception": "RuntimeError",
-        "message": "Run Forrest, run!",
-        "backtrace": "(irb):7:in `irb_binding'\n...",
+        "message": "RuntimeError: Run Forrest, run!",
         "fingerprint": "da39a3ee5e6b4b0d3255bfef95601890afd80709",
-        "controller": "home#run",
+        "controller": "home",
+        "action": "run",
+        "file": "[PROJECT_ROOT]/app/controllers/home_controller.rb",
         "env": "production",
-        "resolved_at": "2011-05-21T14:23:22Z",
         "created_at": "2011-04-22T13:33:48Z",
         "updated_at": "2011-04-22T13:33:48Z",
-        "count": 13
+        "notices_count": 13
+        "most_recent_notice_at": "2011-05-22T12:23:33Z",
+        "resolved": false
       }
     ]
 
@@ -219,28 +243,22 @@ Include resolved errors, default: ``false``.
     {
       "id": 1234,
       "exception": "RuntimeError",
-      "message": "Run Forrest, run!",
-      "backtrace": "(irb):7:in `irb_binding'\n...",
+      "message": "RuntimeError: Run Forrest, run!",
+      "backtrace": [
+        "(irb):7:in `irb_binding`",
+        "...",
+        "..."
+      ],
       "fingerprint": "da39a3ee5e6b4b0d3255bfef95601890afd80709",
-      "controller": "ApplicationController",
+      "controller": "home",
+      "action": "run",
+      "file": "[PROJECT_ROOT]/app/controllers/home_controller.rb",
       "env": "production",
-      "resolved": true,
-      "resolved_at": "2011-05-21T14:23:22Z",
       "created_at": "2011-04-22T13:33:48Z",
       "updated_at": "2011-05-21T14:23:22Z",
-      "count": 2
-      "notices": [
-        {
-          "id": 12345
-          "message": "Slow motion",
-          "reported_at": "2011-04-22T13:36:11Z"
-        },
-        {
-          "id": 12346
-          "message": "Run Forrest, run!",
-          "reported_at": "2011-04-22T13:38:45Z"
-        }
-      ]
+      "notices_count": 2,
+      "most_recent_notice_at": "2011-05-22T12:23:33Z",
+      "resolved": true
     }
 
 ### Edit an error
@@ -261,28 +279,22 @@ Include resolved errors, default: ``false``.
     {
       "id": 1234,
       "exception": "RuntimeError",
-      "message": "Run Forrest, run!",
-      "backtrace": "(irb):7:in `irb_binding'\n...",
+      "message": "RuntimeError: Run Forrest, run!",
+      "backtrace": [
+        "(irb):7:in `irb_binding`",
+        "...",
+        "..."
+      ],
       "fingerprint": "da39a3ee5e6b4b0d3255bfef95601890afd80709",
-      "controller": "ApplicationController",
+      "controller": "home",
+      "action": "run",
+      "file": "[PROJECT_ROOT]/app/controllers/home_controller.rb",
       "env": "production",
-      "resolved": true,
-      "resolved_at": "2011-05-21T14:23:22Z",
       "created_at": "2011-04-22T13:33:48Z",
       "updated_at": "2011-05-21T14:23:22Z",
-      "count": 2
-      "notices": [
-        {
-          "id": 12345
-          "message": "Slow motion",
-          "reported_at": "2011-04-22T13:36:11Z"
-        },
-        {
-          "id": 12346
-          "message": "Run Forrest, run!",
-          "reported_at": "2011-04-22T13:38:45Z"
-        }
-      ]
+      "notices_count": 2,
+      "most_recent_notice_at": "2011-05-22T12:23:33Z",
+      "resolved": true
     }
 
 ## Deployments
