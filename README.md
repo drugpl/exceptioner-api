@@ -174,10 +174,18 @@ Requests that return multiple items will be paginated to 30 items by default. Yo
           "...",
           "..."
         ],
-        "controller": "home",
-        "action": "run",
+        "parameters": {
+          "controller": "home",
+          "action": "run"
+        },
+        "session": {
+          "key": "value"
+        },
+        "environment": {
+          "HTTP_USER_AGENT": "Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.1"
+        },
         "file": "[PROJECT_ROOT]/app/controllers/home_controller.rb",
-        "env": "production"
+        "mode": "production"
       }
     }
 
@@ -215,10 +223,8 @@ Include resolved errors, default: ``false``.
         "exception": "RuntimeError",
         "message": "RuntimeError: Run Forrest, run!",
         "fingerprint": "da39a3ee5e6b4b0d3255bfef95601890afd80709",
-        "controller": "home",
-        "action": "run",
         "file": "[PROJECT_ROOT]/app/controllers/home_controller.rb",
-        "env": "production",
+        "mode": "production",
         "created_at": "2011-04-22T13:33:48Z",
         "updated_at": "2011-04-22T13:33:48Z",
         "notices_count": 13
@@ -245,11 +251,18 @@ Include resolved errors, default: ``false``.
         "...",
         "..."
       ],
+      "parameters": {
+        "key": "value"
+      },
+      "session": {
+        "key": "value"
+      },
+      "environment": {
+        "key": "value"
+      },
       "fingerprint": "da39a3ee5e6b4b0d3255bfef95601890afd80709",
-      "controller": "home",
-      "action": "run",
       "file": "[PROJECT_ROOT]/app/controllers/home_controller.rb",
-      "env": "production",
+      "mode": "production",
       "created_at": "2011-04-22T13:33:48Z",
       "updated_at": "2011-05-21T14:23:22Z",
       "notices_count": 2,
@@ -281,11 +294,18 @@ Include resolved errors, default: ``false``.
         "...",
         "..."
       ],
+      "parameters": {
+        "key": "value"
+      },
+      "session": {
+        "key": "value"
+      },
+      "environment": {
+        "key": "value"
+      },
       "fingerprint": "da39a3ee5e6b4b0d3255bfef95601890afd80709",
-      "controller": "home",
-      "action": "run",
       "file": "[PROJECT_ROOT]/app/controllers/home_controller.rb",
-      "env": "production",
+      "mode": "production",
       "created_at": "2011-04-22T13:33:48Z",
       "updated_at": "2011-05-21T14:23:22Z",
       "notices_count": 2,
