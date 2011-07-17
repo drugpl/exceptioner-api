@@ -7,9 +7,7 @@ module Exceptioner::Api::Models
     validates_uniqueness_of :api_key
     validates_presence_of   :api_key, :name
 
-    before_validation(:on => :create) do
-      generate_api_key!
-    end
+    before_validation :generate_api_key!, :unless => :api_key
 
     def generate_api_key!
       self.api_key = SecureRandom.hex

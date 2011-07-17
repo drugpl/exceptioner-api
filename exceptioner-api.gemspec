@@ -20,13 +20,15 @@ Gem::Specification.new do |s|
   s.require_paths = ["lib"]
 
   s.add_dependency "sinatra"
-  s.add_dependency "sinatra-synchrony"
+  s.add_dependency "sinatra-synchrony", "~> 0.1.0.beta.1"
   s.add_dependency "rabl"
   s.add_dependency "supermodel"
   s.add_dependency "em-redis"
+  s.add_dependency "redis"
 
   s.add_development_dependency "rake"
   s.add_development_dependency "thin"
   s.add_development_dependency "turn"
   s.add_development_dependency "tux"
+  s.add_development_dependency "ruby-debug19"
 end
