@@ -1,5 +1,7 @@
 module Exceptioner
   module Api
-    # Your code goes here...
+    def self.root
+      Pathname.new(File.expand_path(File.join(File.dirname(__FILE__), "..")))
+    end
   end
 end

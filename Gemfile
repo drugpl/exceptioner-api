@@ -1,4 +1,5 @@
 source "http://rubygems.org"
 
-# Specify your gem's dependencies in exceptioner-api.gemspec
 gemspec
+
+gem "sinatra",      :git => "git://github.com/sinatra/sinatra"
