@@ -165,8 +165,6 @@ Requests that return multiple items will be paginated to 30 items by default. Yo
 
     {
       "message": "RuntimeError: Run Forrest, run!",
-      "created_at": "2011-04-22T13:33:48Z",
-      "updated_at": "2011-04-22T13:33:48Z"
       "error": {
         "exception": "RuntimeError",
         "backtrace": [
