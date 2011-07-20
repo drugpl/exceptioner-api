@@ -2,7 +2,10 @@ require 'exceptioner_api/models'
 
 module Exceptioner::Api::Models
   class Project < Base
+    has_many :submitted_errors, :class_name => "Exceptioner::Api::Models::Error"
+
     attributes :name, :api_key
+    indexes    :name, :api_key
 
     validates_uniqueness_of :api_key
     validates_presence_of   :api_key, :name

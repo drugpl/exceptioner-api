@@ -30,5 +30,4 @@ Gem::Specification.new do |s|
   s.add_development_dependency "thin"
   s.add_development_dependency "turn"
   s.add_development_dependency "tux"
-  s.add_development_dependency "ruby-debug19"
 end

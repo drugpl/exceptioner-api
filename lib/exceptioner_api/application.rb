@@ -8,6 +8,8 @@ require 'sinatra/synchrony'
 require 'exceptioner_api/standard_http_errors'
 require 'exceptioner_api/error_handler'
 require 'exceptioner_api/models/project'
+require 'exceptioner_api/models/notice'
+require 'exceptioner_api/models/error'
 require 'exceptioner_api'
 
 module Exceptioner
@@ -19,6 +21,9 @@ module Exceptioner
       register Sinatra::Synchrony
       use ErrorHandler
 
+      Rabl.configure do |config|
+        config.include_json_root = false
+      end
       Rabl.register!
 
       set :root,  Exceptioner::Api.root
@@ -28,6 +33,10 @@ module Exceptioner
 
       helpers do
         def rabl(name, *args) render(:rabl, name.to_sym, *args) end
+
+        def payload
+          @payload ||= JSON.parse(request.body.read.to_s).with_indifferent_access
+        end
       end
 
       before do
@@ -35,8 +44,17 @@ module Exceptioner
         validate_api_key!
       end
 
-      protected
+      post "/v1/notices", :provides => [:json] do
+        error_params = payload.delete(:error) || Hash.new
+        @error  = Models::Error.find_or_create_from_params!(error_params.merge(:resolved => false))
+        @notice = Models::Notice.new(payload)
+        @notice.project = @project
+        @notice.error   = @error
+        @notice.save!
+        rabl "notices/show"
+      end
 
+      protected
       def api_key
         request.env["HTTP_API_KEY"] || params["api_key"]
       end
@@ -51,7 +69,7 @@ module Exceptioner
       end
 
       def dump_errors!(boom)
-        super unless boom.is_a?(::Exceptioner::Api::Error)
+        super unless boom.is_a?(::Exceptioner::Api::Error) || boom.is_a?(::SuperModel::InvalidRecord)
       end
     end
   end
