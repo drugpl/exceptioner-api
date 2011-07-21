@@ -38,4 +38,19 @@ class NoticesTest < Exceptioner::Api::TestCase
     }.with_indifferent_access
     assert_equal [expected_notice], last_response.payload
   end
+
+  def test_showing_notice_for_error
+    post "/v1/notices", valid_params.to_json, valid_headers
+    get  "/v1/errors/1/notices/1", valid_headers
+    assert_equal 200, last_response.status
+
+    expected_notice = {
+      :id => "1",
+      :error_id => "1",
+      :message => "RuntimeError: booo!",
+      :updated_at => Time.now.iso8601,
+      :created_at => Time.now.iso8601
+    }.with_indifferent_access
+    assert_equal expected_notice, last_response.payload
+  end
 end

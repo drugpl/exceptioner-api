@@ -63,6 +63,12 @@ module Exceptioner
         rabl "notices/index"
       end
 
+      get "/v1/errors/:error_id/notices/:id" do
+        # XXX: narrow scope to project, error
+        @notice = Models::Notice.find(params[:id])
+        rabl "notices/show"
+      end
+
       protected
       def api_key
         # XXX: HTTP_API_KEY - why does it differ between post/get?
