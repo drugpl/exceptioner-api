@@ -5,7 +5,7 @@ module Exceptioner::Api::Models
   class Error < Base
     FINGERPRINT_ATTRIBUTES = %w(exception backtrace parameters)
 
-    has_many   :notices
+    has_many   :notices, :class_name => "Exceptioner::Api::Models::Notice", :foreign_key => "error_id"
 
     attributes :exception, :fingerprint, :backtrace, :environment, :parameters, :session, :backtrace, :resolved
     indexes    :fingerprint, :resolved
