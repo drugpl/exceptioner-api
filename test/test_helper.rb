@@ -8,7 +8,8 @@ require "exceptioner_api/application"
 
 class Rack::MockResponse
   def payload
-    JSON.parse(body).with_indifferent_access
+    parsed = JSON.parse(body)
+    parsed.is_a?(Hash) ? parsed.with_indifferent_access : parsed
   end
 end
 
