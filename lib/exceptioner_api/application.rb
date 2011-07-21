@@ -51,6 +51,7 @@ module Exceptioner
         @notice.project = @project
         @notice.error   = @error
         @notice.save!
+        status 201
         rabl "notices/show"
       end
 

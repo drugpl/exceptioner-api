@@ -10,9 +10,9 @@ class NoticesTest < Exceptioner::Api::TestCase
     }
   end
 
-  def test_creating_notice
+  def test_creating_valid_notice
     post "/v1/notices", valid_params.to_json, valid_headers
-    assert_equal 200, last_response.status
+    assert_equal 201, last_response.status
 
     expected_response = {
       :id => "1",
