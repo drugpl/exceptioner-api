@@ -5,12 +5,13 @@ module Exceptioner::Api::Models
   class Error < Base
     FINGERPRINT_ATTRIBUTES = %w(exception backtrace parameters)
 
+    belongs_to :project, :class_name => "Exceptioner::Api::Models::Project"
     has_many   :notices, :class_name => "Exceptioner::Api::Models::Notice", :foreign_key => "error_id"
 
     attributes :exception, :fingerprint, :backtrace, :environment, :parameters, :session, :backtrace, :resolved
-    indexes    :fingerprint, :resolved
+    indexes    :fingerprint, :resolved, :project_id
 
-    validates_presence_of  :exception, :fingerprint
+    validates_presence_of  :exception, :fingerprint, :project
     validates_inclusion_of :resolved, :in => [true, false]
 
     before_validation :generate_fingerprint!, :unless => :fingerprint

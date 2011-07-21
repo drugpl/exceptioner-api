@@ -45,12 +45,15 @@ module Exceptioner
       end
 
       post "/v1/notices", :provides => [:json] do
-        error_params = payload.delete(:error) || Hash.new
         # XXX: narrow scope to project
-        @error  = Models::Error.find_or_create_from_params!(error_params.merge(:resolved => false))
+        error_params = payload.delete(:error) || Hash.new
+        error_params.merge!(
+          :resolved => false,
+          :project  => @project
+        )
+        @error  = Models::Error.find_or_create_from_params!(error_params)
         @notice = Models::Notice.new(payload)
-        @notice.project = @project
-        @notice.error   = @error
+        @notice.error = @error
         @notice.save!
         status 201
         rabl "notices/show"
