@@ -1,17 +1,8 @@
 require 'test_helper'
 
 class NoticesTest < Exceptioner::Api::TestCase
-  def valid_params
-    {
-      :message => "RuntimeError: booo!",
-      :error => {
-        :exception => "RuntimeError"
-      }
-    }
-  end
-
   def test_creating_valid_notice
-    post "/v1/notices", valid_params.to_json, valid_headers
+    post "/v1/notices", valid_notice_params.to_json, valid_headers
     assert_equal 201, last_response.status
 
     expected_response = {
@@ -25,7 +16,7 @@ class NoticesTest < Exceptioner::Api::TestCase
   end
 
   def test_listing_notices_for_error
-    post "/v1/notices", valid_params.to_json, valid_headers
+    post "/v1/notices", valid_notice_params.to_json, valid_headers
     get  "/v1/errors/1/notices", valid_headers
     assert_equal 200, last_response.status
 
@@ -40,7 +31,7 @@ class NoticesTest < Exceptioner::Api::TestCase
   end
 
   def test_showing_notice_for_error
-    post "/v1/notices", valid_params.to_json, valid_headers
+    post "/v1/notices", valid_notice_params.to_json, valid_headers
     get  "/v1/errors/1/notices/1", valid_headers
     assert_equal 200, last_response.status
 

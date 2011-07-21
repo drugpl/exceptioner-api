@@ -1,0 +1,16 @@
+object @error
+attributes :id,
+           :exception,
+           :message,
+           :backtrace,
+           :parameters,
+           :session,
+           :environment,
+           :fingerprint,
+           :file,
+           :mode,
+           :created_at,
+           :updated_at,
+           :notices_count,
+           :most_recent_notice_at,
+           :resolved

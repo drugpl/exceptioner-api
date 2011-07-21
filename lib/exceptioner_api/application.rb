@@ -49,7 +49,7 @@ module Exceptioner
         error_params = payload.delete(:error) || Hash.new
         error_params.merge!(
           :resolved => false,
-          :project  => @project
+          :project_id  => @project.id
         )
         @error  = Models::Error.find_or_create_from_params!(error_params)
         @notice = Models::Notice.new(payload)
@@ -70,6 +70,24 @@ module Exceptioner
         # XXX: narrow scope to project, error
         @notice = Models::Notice.find(params[:id])
         rabl "notices/show"
+      end
+
+      get "/v1/errors/:id" do
+        @error = Models::Error.find(params[:id])
+        rabl "errors/show"
+      end
+
+      get "/v1/errors" do
+        # XXX: resolved finder
+        @errors = @project.errors
+        puts @errors.size
+        rabl "errors/index"
+      end
+
+      patch "/v1/errors/:id" do
+        @error = Models::Error.find(params.delete(:id))
+        @error.update_attributes(params)
+        rabl "errors/show"
       end
 
       protected

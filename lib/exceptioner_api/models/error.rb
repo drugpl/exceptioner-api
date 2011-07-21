@@ -21,7 +21,7 @@ module Exceptioner::Api::Models
     end
 
     def most_recent_notice_at
-      notices.order(:created_at).last.created_at
+      notices.last # order(:created_at).last.created_at
     end
 
     def self.find_or_create_from_params!(params = {})

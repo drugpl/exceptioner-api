@@ -24,6 +24,15 @@ class Exceptioner::Api::TestCase < Test::Unit::TestCase
     }
   end
 
+  def valid_notice_params
+    {
+      :message => "RuntimeError: booo!",
+      :error => {
+        :exception => "RuntimeError"
+      }
+    }
+  end
+
   def setup
     Redis.new.flushdb # mock_redis should be used as soon as they implment sort
     @project = Exceptioner::Api::Models::Project.create(:name => "Exceptioner")
