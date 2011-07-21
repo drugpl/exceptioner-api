@@ -46,6 +46,7 @@ module Exceptioner
 
       post "/v1/notices", :provides => [:json] do
         error_params = payload.delete(:error) || Hash.new
+        # XXX: narrow scope to project
         @error  = Models::Error.find_or_create_from_params!(error_params.merge(:resolved => false))
         @notice = Models::Notice.new(payload)
         @notice.project = @project
@@ -55,9 +56,17 @@ module Exceptioner
         rabl "notices/show"
       end
 
+      get "/v1/errors/:error_id/notices" do # , :provides => [:json] do # XXX: why?
+        # XXX: narrow scope to project
+        @error   = Models::Error.find(params[:error_id])
+        @notices = @error.notices
+        rabl "notices/index"
+      end
+
       protected
       def api_key
-        request.env["HTTP_API_KEY"] || params["api_key"]
+        # XXX: HTTP_API_KEY - why does it differ between post/get?
+        request.env["HTTP_API_KEY"] || params["HTTP_API_KEY"] || params["api_key"]
       end
 
       def check_api_key!
