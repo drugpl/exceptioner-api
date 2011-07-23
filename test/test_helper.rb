@@ -5,6 +5,9 @@ require "rack/test"
 require "turn"
 require "time"
 require "exceptioner_api/application"
+require 'database_cleaner'
+
+DatabaseCleaner.strategy = :truncation
 
 class Rack::MockResponse
   def payload
@@ -31,20 +34,23 @@ class Exceptioner::Api::TestCase < Test::Unit::TestCase
 
   def valid_notice_params
     {
-      :message => "RuntimeError: booo!",
-      :error => valid_error_params
+      message: "RuntimeError: booo!",
+      error: valid_error_params
     }
   end
 
   def valid_error_params
     {
-      :exception => "RuntimeError"
+      exception: "RuntimeError"
     }
   end
 
   def setup
-    Redis.new.flushdb # mock_redis should be used as soon as they implment sort
-    @project = Exceptioner::Api::Models::Project.create(:name => "Exceptioner")
+    @project = Exceptioner::Api::Models::Project.create(name: "Exceptioner")
+  end
+
+  def teardown
+    DatabaseCleaner.clean
   end
 
   def app

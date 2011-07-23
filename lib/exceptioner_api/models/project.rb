@@ -1,16 +1,25 @@
 require 'exceptioner_api/models'
+require 'fingerprint_generator'
 
 module Exceptioner::Api::Models
-  class Project < Base
-    has_many :submitted_errors, :class_name => "Exceptioner::Api::Models::Error"
+  class Project
+    include Mongoid::Document
+    include Mongoid::Timestamps
 
-    attributes :name, :api_key
-    indexes    :name, :api_key
+    field :name,    type: String
+    field :api_key, type: String
+
+    has_many :submitted_errors, class_name: "Exceptioner::Api::Models::Error" do
+      def find_or_create_from_params!(params = {})
+        values = params.stringify_keys.values_at(*Exceptioner::Api::Models::Error::FINGERPRINT_ATTRIBUTES)
+        where(fingerprint: FingerprintGenerator.generate_fingerprint(values)).first || create!(params)
+      end
+    end
 
     validates_uniqueness_of :api_key
     validates_presence_of   :api_key, :name
 
-    before_validation :generate_api_key!, :unless => :api_key
+    before_validation :generate_api_key!, unless: :api_key
 
     def generate_api_key!
       self.api_key = SecureRandom.hex

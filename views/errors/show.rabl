@@ -1,7 +1,6 @@
 object @error
 attributes :id,
            :exception,
-           :message,
            :backtrace,
            :parameters,
            :session,
@@ -11,6 +10,7 @@ attributes :id,
            :mode,
            :created_at,
            :updated_at,
-           :notices_count,
-           :most_recent_notice_at,
            :resolved
+
+code(:most_recent_notice_at) { |err| err.notices.last.created_at }
+code(:notices_count) { |err| err.notices.count }

@@ -26,6 +26,10 @@ module Exceptioner
       end
       Rabl.register!
 
+      Mongoid.configure do |config|
+        config.database = Mongo::Connection.new.db("exceptioner")
+      end
+
       set :root,  Exceptioner::Api.root
       set :views, Exceptioner::Api.root.join('views')
       set :show_exceptions, false
@@ -44,49 +48,40 @@ module Exceptioner
         validate_api_key!
       end
 
-      post "/v1/notices", :provides => [:json] do
-        # XXX: narrow scope to project
+      post "/v1/notices", provides: [:json] do
         error_params = payload.delete(:error) || Hash.new
-        error_params.merge!(
-          :resolved => false,
-          :project_id  => @project.id
-        )
-        @error  = Models::Error.find_or_create_from_params!(error_params)
-        @notice = Models::Notice.new(payload)
-        @notice.error = @error
-        @notice.save!
+        error   = @project.submitted_errors.find_or_create_from_params!(error_params)
+        @notice = error.notices.create!(payload)
         status 201
         rabl "notices/show"
       end
 
       get "/v1/errors/:error_id/notices" do # , :provides => [:json] do # XXX: why?
-        # XXX: narrow scope to project
-        @error   = Models::Error.find(params[:error_id])
-        @notices = @error.notices
+        error    = @project.submitted_errors.find(params[:error_id])
+        @notices = error.notices
         rabl "notices/index"
       end
 
       get "/v1/errors/:error_id/notices/:id" do
-        # XXX: narrow scope to project, error
-        @notice = Models::Notice.find(params[:id])
+        error    = @project.submitted_errors.find(params[:error_id])
+        @notice  = error.notices.find(params[:id])
         rabl "notices/show"
       end
 
       get "/v1/errors/:id" do
-        @error = Models::Error.find(params[:id])
+        @error = @project.submitted_errors.find(params[:id])
         rabl "errors/show"
       end
 
       get "/v1/errors" do
         # XXX: resolved finder
-        @errors = @project.errors
-        puts @errors.size
+        @errors = @project.submitted_errors
         rabl "errors/index"
       end
 
       patch "/v1/errors/:id" do
-        @error = Models::Error.find(params.delete(:id))
-        @error.update_attributes(params)
+        @errors = @project.submitted_errors.find(params.delete(:id))
+        @error.update_attributes(payload)
         rabl "errors/show"
       end
 
@@ -101,12 +96,12 @@ module Exceptioner
       end
 
       def validate_api_key!
-        @project = Models::Project.find_by_api_key(api_key)
+        @project = Models::Project.where(api_key: api_key).first
         raise InvalidApiKeyError unless @project
       end
 
       def dump_errors!(boom)
-        super unless boom.is_a?(::Exceptioner::Api::Error) || boom.is_a?(::SuperModel::InvalidRecord)
+        super unless boom.is_a?(::Exceptioner::Api::Error)
       end
     end
   end

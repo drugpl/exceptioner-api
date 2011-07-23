@@ -2,32 +2,31 @@ require 'exceptioner_api/models'
 require 'fingerprint_generator'
 
 module Exceptioner::Api::Models
-  class Error < Base
+  class Error
+    include Mongoid::Document
+    include Mongoid::Timestamps
+
     FINGERPRINT_ATTRIBUTES = %w(exception backtrace parameters)
 
-    belongs_to :project, :class_name => "Exceptioner::Api::Models::Project"
-    has_many   :notices, :class_name => "Exceptioner::Api::Models::Notice", :foreign_key => "error_id"
+    field :exception,   type: String
+    field :backtrace,   type: Array
+    field :parameters,  type: Hash
+    field :session,     type: Hash
+    field :environment, type: Hash
+    field :fingerprint, type: String
+    field :file,        type: String
+    field :mode,        type: String
+    field :resolved,    type: Boolean, default: false
 
-    attributes :exception, :fingerprint, :backtrace, :environment, :parameters, :session, :backtrace, :resolved
-    indexes    :fingerprint, :resolved, :project_id
+    attr_protected :fingerprint
+
+    belongs_to  :project, class_name: "Exceptioner::Api::Models::Project"
+    embeds_many :notices, class_name: "Exceptioner::Api::Models::Notice"
 
     validates_presence_of  :exception, :fingerprint, :project
-    validates_inclusion_of :resolved, :in => [true, false]
+    validates_inclusion_of :resolved, in: [true, false]
 
-    before_validation :generate_fingerprint!, :unless => :fingerprint
-
-    def notices_count
-      notices.size
-    end
-
-    def most_recent_notice_at
-      notices.last # order(:created_at).last.created_at
-    end
-
-    def self.find_or_create_from_params!(params = {})
-      fingerprint = FingerprintGenerator.generate_fingerprint(params.stringify_keys.values_at(*FINGERPRINT_ATTRIBUTES)) rescue nil
-      self.find_by_fingerprint(fingerprint) || self.create!(params)
-    end
+    before_validation :generate_fingerprint!, unless: :fingerprint
 
     protected
     def generate_fingerprint!

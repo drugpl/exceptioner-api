@@ -1,11 +1,13 @@
 require 'exceptioner_api/models'
 
 module Exceptioner::Api::Models
-  class Notice < Base
-    belongs_to :error,   :class_name => "Exceptioner::Api::Models::Error"
+  class Notice
+    include Mongoid::Document
+    include Mongoid::Timestamps
 
-    attributes :message
-    indexes    :error_id
+    embedded_in :error, class_name: "Exceptioner::Api::Models::Error"
+
+    field :message, type: String
 
     validates_presence_of :message, :error
   end
