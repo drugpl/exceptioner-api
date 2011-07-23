@@ -9,7 +9,12 @@ require "exceptioner_api/application"
 class Rack::MockResponse
   def payload
     parsed = JSON.parse(body)
-    parsed.is_a?(Hash) ? parsed.with_indifferent_access : parsed
+    case parsed
+    when Hash
+      parsed.with_indifferent_access
+    when Array
+      parsed.collect { |elem| elem.with_indifferent_access }
+    end
   end
 end
 
@@ -27,9 +32,13 @@ class Exceptioner::Api::TestCase < Test::Unit::TestCase
   def valid_notice_params
     {
       :message => "RuntimeError: booo!",
-      :error => {
-        :exception => "RuntimeError"
-      }
+      :error => valid_error_params
+    }
+  end
+
+  def valid_error_params
+    {
+      :exception => "RuntimeError"
     }
   end
 
