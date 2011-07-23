@@ -1,34 +1,19 @@
 raise LoadError, 'Ruby 1.9.2 required' if RUBY_VERSION < '1.9.2'
 
 require 'bundler'
-require 'rabl'
-require 'rack/fiber_pool'
 require 'sinatra/base'
 require 'sinatra/synchrony'
-require 'exceptioner_api/standard_http_errors'
+require 'exceptioner_api/config'
+require 'exceptioner_api/models'
+require 'exceptioner_api/errors'
 require 'exceptioner_api/error_handler'
-require 'exceptioner_api/models/project'
-require 'exceptioner_api/models/notice'
-require 'exceptioner_api/models/error'
-require 'exceptioner_api'
+
 
 module Exceptioner
   module Api
     class Application < Sinatra::Base
-      class MissingApiKeyError < BadRequestError ; end
-      class InvalidApiKeyError < UnauthorizedError ; end
-
       register Sinatra::Synchrony
       use ErrorHandler
-
-      Rabl.configure do |config|
-        config.include_json_root = false
-      end
-      Rabl.register!
-
-      Mongoid.configure do |config|
-        config.database = Mongo::Connection.new.db("exceptioner")
-      end
 
       set :root,  Exceptioner::Api.root
       set :views, Exceptioner::Api.root.join('views')
@@ -36,7 +21,9 @@ module Exceptioner
       set :raise_errors,    true
 
       helpers do
-        def rabl(name, *args) render(:rabl, name.to_sym, *args) end
+        def rabl(name, *args)
+          render(:rabl, name.to_sym, *args)
+        end
 
         def payload
           @payload ||= JSON.parse(request.body.read.to_s).with_indifferent_access
@@ -56,7 +43,7 @@ module Exceptioner
         rabl "notices/show"
       end
 
-      get "/v1/errors/:error_id/notices" do # , :provides => [:json] do # XXX: why?
+      get "/v1/errors/:error_id/notices" do
         error    = @project.submitted_errors.find(params[:error_id])
         @notices = error.notices
         rabl "notices/index"
