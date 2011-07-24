@@ -37,7 +37,14 @@ require "active_model/serialization"
 require "active_model/translation"
 require "active_model/validator"
 require "active_model/validations"
-require "mongo"
+
+if defined?(EM) && EM.reactor_running?
+  require 'em-synchrony/em-mongo'
+  Mongo = EM::Mongo
+else
+  require 'mongo'
+end
+
 require "mongoid/errors"
 require "mongoid/extensions"
 require "mongoid/safe"

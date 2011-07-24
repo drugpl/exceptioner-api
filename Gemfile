@@ -2,8 +2,6 @@ source "http://rubygems.org"
 
 gemspec
 
-gem "mongoid", :path => "/home/sensei/code/mongoid"
-
 platforms :mri_18 do
   gem "ruby-debug"
   gem "SystemTimer"

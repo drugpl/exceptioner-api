@@ -21,9 +21,11 @@ Gem::Specification.new do |s|
 
   s.add_dependency "sinatra", "~> 1.3.0.e"
   s.add_dependency "sinatra-synchrony", "~> 0.1.0.beta.1"
-  s.add_dependency "rabl"
-  s.add_dependency "mongo"
-  s.add_dependency "em-mongo"
+  s.add_dependency "rabl", "~> 0.3.0"
+  s.add_dependency "mongo", "~> 1.3"
+  s.add_dependency "em-mongo", "~> 0.4.0"
+  s.add_dependency "activemodel", "~> 3.0"
+  s.add_dependency "tzinfo", "~> 0.3.22"
 
   s.add_development_dependency "rake"
   s.add_development_dependency "thin"
