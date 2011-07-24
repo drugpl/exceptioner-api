@@ -219,7 +219,6 @@ Include resolved errors, default: ``false``.
       {
         "id": 1234,
         "exception": "RuntimeError",
-        "message": "RuntimeError: Run Forrest, run!",
         "fingerprint": "da39a3ee5e6b4b0d3255bfef95601890afd80709",
         "file": "[PROJECT_ROOT]/app/controllers/home_controller.rb",
         "mode": "production",
@@ -243,7 +242,6 @@ Include resolved errors, default: ``false``.
     {
       "id": 1234,
       "exception": "RuntimeError",
-      "message": "RuntimeError: Run Forrest, run!",
       "backtrace": [
         "(irb):7:in `irb_binding`",
         "...",
@@ -286,7 +284,6 @@ Include resolved errors, default: ``false``.
     {
       "id": 1234,
       "exception": "RuntimeError",
-      "message": "RuntimeError: Run Forrest, run!",
       "backtrace": [
         "(irb):7:in `irb_binding`",
         "...",
