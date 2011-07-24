@@ -76,6 +76,22 @@ module Exceptioner
         rabl "errors/show"
       end
 
+      post "/v1/deploys", provides: [:json] do
+        @deploy = @project.deploys.create!(payload)
+        status 201
+        rabl "deploys/show"
+      end
+
+      get "/v1/deploys" do
+        @deploys = @project.deploys
+        rabl "deploys/index"
+      end
+
+      get "/v1/deploys/:id" do
+        @deploy = @project.deploys.find(params[:id])
+        rabl "deploys/show"
+      end
+
       protected
       def api_key
         # XXX: HTTP_API_KEY - why does it differ between post/get?

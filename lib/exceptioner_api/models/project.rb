@@ -9,6 +9,7 @@ module Exceptioner::Api::Models
     field :name,    type: String
     field :api_key, type: String
 
+    has_many :deploys, class_name: "Exceptioner::Api::Models::Deploy"
     has_many :submitted_errors, class_name: "Exceptioner::Api::Models::Error" do
       def find_or_create_from_params!(params = {})
         values = params.stringify_keys.values_at(*Error::FINGERPRINT_ATTRIBUTES)

@@ -325,8 +325,9 @@ Include resolved errors, default: ``false``.
       {
         "id": 1234,
         "environment": "production",
-        "deployed_at": "2011-05-12T23:01:05Z",
-        "deployed_by": "pawelpacana",
+        "created_at": "2011-05-12T23:01:05Z",
+        "updated_at": "2011-05-12T23:01:05Z",
+        "author": "pawelpacana",
         "repository": "git@github.com:drugpl/exceptioner-api.git",
         "revision": "e3b62dbc4e7b6301d37c591772d9aa76bd230cb6"
       }
@@ -343,8 +344,9 @@ Include resolved errors, default: ``false``.
     {
       "id": 1234,
       "environment": "production",
-      "deployed_at": "2011-05-12T23:01:05Z",
-      "deployed_by": "pawelpacana",
+      "created_at": "2011-05-12T23:01:05Z",
+      "updated_at": "2011-05-12T23:01:05Z",
+      "author": "pawelpacana",
       "repository": "git@github.com:drugpl/exceptioner-api.git",
       "revision": "e3b62dbc4e7b6301d37c591772d9aa76bd230cb6"
     }
@@ -357,7 +359,7 @@ Include resolved errors, default: ``false``.
 
     {
       "environment": "production",
-      "deployed_by": "pawelpacana",
+      "author": "pawelpacana",
       "repository": "git@github.com:drugpl/exceptioner-api.git",
       "revision": "e3b62dbc4e7b6301d37c591772d9aa76bd230cb6"
     }
@@ -369,8 +371,9 @@ Include resolved errors, default: ``false``.
     {
       "id": 1234,
       "environment": "production",
-      "deployed_at": "2011-05-12T23:01:05Z",
-      "deployed_by": "pawelpacana",
+      "created_at": "2011-05-12T23:01:05Z",
+      "updated_at": "2011-05-12T23:01:05Z",
+      "author": "pawelpacana",
       "repository": "git@github.com:drugpl/exceptioner-api.git",
       "revision": "e3b62dbc4e7b6301d37c591772d9aa76bd230cb6"
     }

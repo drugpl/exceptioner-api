@@ -56,6 +56,15 @@ class Exceptioner::Api::TestCase < Test::Unit::TestCase
     )
   end
 
+  def valid_deploy_params
+    {
+      environment: "staging",
+      repository: "git@example.com:test/test.git",
+      revision: "abcd",
+      author: "John Doe"
+    }
+  end
+
   def setup
     @project = Exceptioner::Api::Models::Project.create(name: "Exceptioner")
   end
