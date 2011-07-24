@@ -61,8 +61,12 @@ module Exceptioner
       end
 
       get "/v1/errors" do
-        # XXX: resolved finder
-        @errors = @project.submitted_errors
+        @errors = case params[:resolved]
+                  when false, nil
+                    @project.submitted_errors.unresolved
+                  else
+                    @project.submitted_errors
+                  end
         rabl "errors/index"
       end
 

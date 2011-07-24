@@ -23,6 +23,8 @@ module Exceptioner::Api::Models
     belongs_to  :project, class_name: "Exceptioner::Api::Models::Project"
     embeds_many :notices, class_name: "Exceptioner::Api::Models::Notice"
 
+    scope :unresolved, where(resolved: false)
+
     validates_presence_of  :exception, :fingerprint, :project
     validates_inclusion_of :resolved, in: [true, false]
 

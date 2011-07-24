@@ -23,10 +23,34 @@ class ErrorsTest < Exceptioner::Api::TestCase
     end
   end
 
+  def test_listing_errors_with_resolved
+    post "/v1/notices", valid_notice_params.to_json, valid_headers
+    time     = Time.now.iso8601
+    error_id = last_response.payload[:error_id]
+
+    patch "/v1/errors/#{error_id}", {resolved: true}.to_json, valid_headers
+    get   "/v1/errors?resolved=true",  valid_headers
+    assert_equal 200, last_response.status
+    assert_equal 1,   last_response.payload.size
+
+    last_response.payload.first.tap do |error|
+      assert_not_nil error[:id]
+      assert_not_nil error[:fingerprint]
+      assert_equal valid_error_params[:exception], error[:exception]
+      assert_equal valid_error_params[:file], error[:file]
+      assert_equal valid_error_params[:mode], error[:mode]
+      assert_equal time, error[:created_at]
+      assert_equal time, error[:updated_at]
+      assert_equal time, error[:most_recent_notice_at]
+      assert_equal true, error[:resolved]
+      assert_equal 1, error[:notices_count]
+    end
+  end
+
   def test_showing_error_for_project
     post "/v1/notices",  valid_notice_params.to_json, valid_headers
-    time      = Time.now.iso8601
-    error_id  = last_response.payload[:error_id]
+    time     = Time.now.iso8601
+    error_id = last_response.payload[:error_id]
 
     get  "/v1/errors/#{error_id}", valid_headers
     assert_equal 200, last_response.status
