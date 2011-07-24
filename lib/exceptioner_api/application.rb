@@ -70,9 +70,20 @@ module Exceptioner
         rabl "errors/index"
       end
 
-      patch "/v1/errors/:id", provides: [:json] do
-        @error = @project.submitted_errors.find(params[:id])
+      error_update = Proc.new do |project, params, payload|
+        @error = project.submitted_errors.find(params[:id])
         @error.update_attributes(payload)
+        @error
+      end
+
+      patch "/v1/errors/:id", provides: [:json] do
+        @error = error_update.call(@project, params, payload)
+        rabl "errors/show"
+      end
+
+      # XXX: compatibility
+      post  "/v1/errors/:id", provides: [:json] do
+        @error = error_update.call(@project, params, payload)
         rabl "errors/show"
       end
 
