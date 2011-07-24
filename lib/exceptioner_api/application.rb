@@ -66,8 +66,8 @@ module Exceptioner
         rabl "errors/index"
       end
 
-      patch "/v1/errors/:id" do
-        @errors = @project.submitted_errors.find(params.delete(:id))
+      patch "/v1/errors/:id", provides: [:json] do
+        @error = @project.submitted_errors.find(params[:id])
         @error.update_attributes(payload)
         rabl "errors/show"
       end
