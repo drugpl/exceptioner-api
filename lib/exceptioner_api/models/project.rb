@@ -1,5 +1,5 @@
 require 'exceptioner_api/models'
-require 'fingerprint_generator'
+require 'exceptioner_api/utils'
 
 module Exceptioner::Api::Models
   class Project
@@ -11,8 +11,8 @@ module Exceptioner::Api::Models
 
     has_many :submitted_errors, class_name: "Exceptioner::Api::Models::Error" do
       def find_or_create_from_params!(params = {})
-        values = params.stringify_keys.values_at(*Exceptioner::Api::Models::Error::FINGERPRINT_ATTRIBUTES)
-        where(fingerprint: FingerprintGenerator.generate_fingerprint(values)).first || create!(params)
+        values = params.stringify_keys.values_at(*Error::FINGERPRINT_ATTRIBUTES)
+        where(fingerprint: Exceptioner::Api::Utils::FingerprintGenerator.new(values).generate).first || create!(params)
       end
     end
 

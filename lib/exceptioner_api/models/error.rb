@@ -1,5 +1,5 @@
 require 'exceptioner_api/models'
-require 'fingerprint_generator'
+require 'exceptioner_api/utils'
 
 module Exceptioner::Api::Models
   class Error
@@ -30,7 +30,8 @@ module Exceptioner::Api::Models
 
     protected
     def generate_fingerprint!
-      self.fingerprint = FingerprintGenerator.generate_fingerprint(self.attributes.values_at(*FINGERPRINT_ATTRIBUTES))
+      values = self.attributes.values_at(*FINGERPRINT_ATTRIBUTES)
+      self.fingerprint = Exceptioner::Api::Utils::FingerprintGenerator.new(values).generate
     end
   end
 end
