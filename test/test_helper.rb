@@ -32,10 +32,10 @@ class Exceptioner::Api::TestCase < Test::Unit::TestCase
     }
   end
 
-  def valid_notice_params
+  def valid_notice_params(error_params = nil)
     {
       message: "RuntimeError: booo!",
-      error: valid_error_params
+      error: error_params || valid_error_params
     }
   end
 
@@ -43,6 +43,17 @@ class Exceptioner::Api::TestCase < Test::Unit::TestCase
     {
       exception: "RuntimeError"
     }
+  end
+
+  def full_error_params
+    valid_error_params.merge(
+      session:     {"a" => 1},
+      parameters:  {"b" => 2},
+      environment: {"c" => 3},
+      backtrace:   ["first line", "second line"],
+      file: "[PROJECT_ROOT]/lib/exceptioner_api.rb",
+      mode: "production"
+    )
   end
 
   def setup
