@@ -59,7 +59,7 @@ There are three possible types of client errors on API calls that receive reques
         Content-Length: 161
 
         {
-          "message": "Validation Failed",
+          "message": "Validation failed",
           "errors": [
             {
               "resource": "Notice",

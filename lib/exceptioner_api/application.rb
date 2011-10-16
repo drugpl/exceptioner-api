@@ -6,19 +6,33 @@ require 'sinatra/synchrony'
 require 'exceptioner_api/config'
 require 'exceptioner_api/models'
 require 'exceptioner_api/errors'
-require 'exceptioner_api/error_handler'
-
 
 module Exceptioner
   module Api
     class Application < Sinatra::Base
       register Sinatra::Synchrony
-      use ErrorHandler
 
       set :root,  Exceptioner::Api.root
       set :views, Exceptioner::Api.root.join('views')
-      set :show_exceptions, false
-      set :raise_errors,    true
+
+      error 400..500 do
+        exc        = env['sinatra.error']
+        code, body = case exc
+                     when ::Exceptioner::Api::ValidationFailedError
+                       [exc.code, exc.message]
+                       # XXX: change here
+                     when ::Exceptioner::Api::Error
+                       [exc.code, exc.message]
+                     else
+                       [500, "Internal server error"]
+                     end
+        status(code)
+        {message: body}.to_json
+      end
+
+      error 404 do
+        {message: "Not found"}.to_json
+      end
 
       helpers do
         def rabl(name, *args)
@@ -26,7 +40,11 @@ module Exceptioner
         end
 
         def payload
-          @payload ||= JSON.parse(request.body.read.to_s).with_indifferent_access
+          begin
+            @payload ||= JSON.parse(request.body.read.to_s).with_indifferent_access
+          rescue JSON::ParserError
+            raise InvalidJsonError, "Problems parsing JSON"
+          end
         end
       end
 
@@ -37,10 +55,14 @@ module Exceptioner
 
       post "/v1/notices", provides: [:json] do
         error_params = payload.delete(:error) || Hash.new
-        error   = @project.submitted_errors.find_or_create_from_params!(error_params)
-        @notice = error.notices.create!(payload)
-        status 201
-        rabl "notices/show"
+        begin
+          error   = @project.submitted_errors.find_or_create_from_params!(error_params)
+          @notice = error.notices.create!(payload)
+          status 201
+          rabl "notices/show"
+        rescue ::Mongoid::Errors::Validations
+          raise ValidationFailedError
+        end
       end
 
       get "/v1/errors/:error_id/notices" do
@@ -72,8 +94,12 @@ module Exceptioner
 
       error_update = Proc.new do |project, params, payload|
         @error = project.submitted_errors.find(params[:id])
-        @error.update_attributes(payload)
-        @error
+        begin
+          @error.update_attributes(payload)
+          @error
+        rescue ::Mongoid::Errors::Validations
+          raise ValidationFailedError
+        end
       end
 
       patch "/v1/errors/:id", provides: [:json] do
@@ -88,9 +114,13 @@ module Exceptioner
       end
 
       post "/v1/deploys", provides: [:json] do
-        @deploy = @project.deploys.create!(payload)
-        status 201
-        rabl "deploys/show"
+        begin
+          @deploy = @project.deploys.create!(payload)
+          status 201
+          rabl "deploys/show"
+        rescue ::Mongoid::Errors::Validations
+          raise ValidationFailedError
+        end
       end
 
       get "/v1/deploys" do
