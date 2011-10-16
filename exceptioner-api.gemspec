@@ -19,7 +19,7 @@ Gem::Specification.new do |s|
   s.executables   = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
   s.require_paths = ["lib"]
 
-  s.add_dependency "sinatra", "~> 1.3.0.e"
+  s.add_dependency "sinatra", "~> 1.3.1"
   s.add_dependency "sinatra-synchrony", "~> 0.1.0.beta.1"
   s.add_dependency "rabl", "~> 0.3.0"
   s.add_dependency "mongo", "~> 1.3"
@@ -29,7 +29,7 @@ Gem::Specification.new do |s|
 
   s.add_development_dependency "rake"
   s.add_development_dependency "thin"
-  s.add_development_dependency "turn"
+  s.add_development_dependency "turn", "0.8.2"
   s.add_development_dependency "tux"
   s.add_development_dependency "database_cleaner"
 end
