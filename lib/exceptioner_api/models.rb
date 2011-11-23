@@ -1,6 +1,6 @@
 require 'exceptioner_api'
 
-module Exceptioner::Api
+module Exceptioner::API
   module Models
   end
 end

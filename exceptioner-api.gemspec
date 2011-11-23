@@ -4,13 +4,13 @@ require "exceptioner_api/version"
 
 Gem::Specification.new do |s|
   s.name        = "exceptioner-api"
-  s.version     = Exceptioner::Api::VERSION
+  s.version     = Exceptioner::API::VERSION
   s.platform    = Gem::Platform::RUBY
-  s.authors     = ["TODO: Write your name"]
-  s.email       = ["TODO: Write your email address"]
+  s.authors     = ["Paweł Pacana"]
+  s.email       = ["pawel.pacana@gmail.com"]
   s.homepage    = ""
-  s.summary     = %q{TODO: Write a gem summary}
-  s.description = %q{TODO: Write a gem description}
+  s.summary     = %q{Collects errors from your app.}
+  s.description = %q{Exceptioner API is a service to collect error notifications as well as other types of events in your application.}
 
   s.rubyforge_project = "exceptioner-api"
 
