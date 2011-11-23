@@ -5,10 +5,10 @@ require 'rake/testtask'
 
 Bundler::GemHelper.install_tasks
 
-Rake::TestTask.new(:test) do |t|
+Rake::TestTask.new('test:acceptance') do |t|
   t.libs << 'lib'
   t.libs << 'test'
-  t.pattern = 'test/**/*_test.rb'
+  t.pattern = 'test/acceptance/*_test.rb'
 end
 
-task :default => :test
+task :default => 'test:acceptance'

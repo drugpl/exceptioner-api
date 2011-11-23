@@ -22,4 +22,5 @@ Gem::Specification.new do |s|
   s.add_dependency "goliath", "~> 0.9.4"
   s.add_development_dependency "em-spec", "~> 0.2.5"
   s.add_development_dependency "em-http-request", "~> 1.0.0"
+  s.add_development_dependency "rake", "~> 0.9.2"
 end
