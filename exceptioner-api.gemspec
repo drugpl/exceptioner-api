@@ -19,5 +19,7 @@ Gem::Specification.new do |s|
   s.executables   = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
   s.require_paths = ["lib"]
 
-  s.add_dependency "goliath"
+  s.add_dependency "goliath", "~> 0.9.4"
+  s.add_development_dependency "em-spec", "~> 0.2.5"
+  s.add_development_dependency "em-http-request", "~> 1.0.0"
 end
