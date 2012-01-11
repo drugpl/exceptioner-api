@@ -9,6 +9,7 @@ class DeploysTest < Exceptioner::Api::TestCase
     assert_equal 200, last_response.status
     assert_equal 1,   last_response.payload.size
 
+
     last_response.payload.first.tap do |deploy|
       assert_not_nil deploy[:id]
       assert_equal valid_deploy_params[:environment], deploy[:environment]

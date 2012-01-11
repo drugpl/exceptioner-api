@@ -8,5 +8,5 @@ DATABASE = case ENV['RACK_ENV']
            end
 
 Mongoid.configure do |config|
-  config.database = Mongo::Connection.new.db(DATABASE)
+  config.master = Mongo::Connection.new.db(DATABASE)
 end

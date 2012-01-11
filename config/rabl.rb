@@ -1,4 +1,5 @@
 require 'rabl'
+require 'grape-rabl'
 
 Rabl.register!
 Rabl.configure do |config|

@@ -32,6 +32,6 @@ class HttpErrorResponsesTest < Exceptioner::Api::TestCase
   def test_fetching_nonexisting_resource
     get "/v1/notices/13", valid_headers
     assert_equal 404, last_response.status
-    assert_equal "Not found", last_response.payload[:message]
+    assert_equal "Not Found", last_response.body
   end
 end

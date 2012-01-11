@@ -74,6 +74,11 @@ class Exceptioner::Api::TestCase < Test::Unit::TestCase
   end
 
   def app
-    Exceptioner::Api::Application
+    Rack::Builder.new do
+      use Rack::Config do |env|
+        env['api.tilt.root'] = File.join(File.dirname(__FILE__), "..", "views")
+      end
+      run Exceptioner::Api::Application
+    end
   end
 end

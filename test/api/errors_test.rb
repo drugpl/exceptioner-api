@@ -131,7 +131,7 @@ class ErrorsTest < Exceptioner::Api::TestCase
     error_id = last_response.payload[:error_id]
 
     post "/v1/errors/#{error_id}", {resolved: true}.to_json, valid_headers
-    assert_equal 200, last_response.status
+    assert_equal 201, last_response.status
 
     last_response.payload.tap do |error|
       assert_not_nil error[:id]
