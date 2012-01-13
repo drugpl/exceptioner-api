@@ -7,3 +7,5 @@ module Exceptioner
     end
   end
 end
+
+ER = Exceptioner
