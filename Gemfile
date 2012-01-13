@@ -1,13 +1,13 @@
 source "http://rubygems.org"
 
-gemspec
-gem "rack-test", :git => "git://github.com/krekoten/rack-test.git", :branch => "patch_method"
+gem "webmachine", git: "git://github.com/seancribbs/webmachine-ruby.git"
+gem "mongoid", "~> 2.4.0"
+gem "bson_ext", "~> 1.5.2"
 
-platforms :mri_18 do
-  gem "ruby-debug"
-  gem "SystemTimer"
+group :test, :development do
+  gem "ruby-debug19"
 end
 
-platforms :mri_19 do
-  gem "ruby-debug19", :require => "ruby-debug" if RUBY_VERSION < "1.9.3"
+group :test do
+  gem "rspec", "~> 2.8.0"
 end
