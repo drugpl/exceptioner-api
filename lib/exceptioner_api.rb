@@ -1,3 +1,5 @@
+require 'pathanme'
+
 module Exceptioner
   module Api
     def self.root
