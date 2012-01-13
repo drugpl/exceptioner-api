@@ -1,4 +1,4 @@
-require 'pathanme'
+require 'pathname'
 
 module Exceptioner
   module Api
