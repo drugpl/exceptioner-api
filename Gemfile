@@ -10,4 +10,5 @@ end
 
 group :test do
   gem "rspec", "~> 2.8.0"
+  gem "rest-client"
 end
