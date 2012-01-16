@@ -1,0 +1,13 @@
+#!/usr/bin/env ruby
+
+$: << './lib'
+ENV['RACK_ENV'] ||= 'development'
+
+require 'bundler/setup'
+require 'exceptioner_api/application'
+require 'irb'
+require 'irb/completion'
+
+if __FILE__ == $0
+  IRB.start
+end
