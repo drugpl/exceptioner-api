@@ -1,20 +1,25 @@
 require "spec_helper"
 
 resource "Errors" do
+  let(:client) { @test_client }
+
   get "/errors" do
     example "List all errors" do
-      do_request
+      do_request do |response|
+        response.should be_ok
+      end
     end
   end
 
   get "/errors/:id" do
     parameter :id, "Error ID"
 
-    let(:error) { OpenStruct.new(id: 1) }
-    let(:id) { error.id }
+    let(:id) { 1 }
 
     example "Get a single error" do
-      do_request
+      do_request do |response|
+        response.should be_ok
+      end
     end
   end
 end
