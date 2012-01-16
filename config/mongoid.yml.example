@@ -1,2 +1,6 @@
-database: webmachine
-host: localhost
+development:
+  database: webmachine_development
+  host: localhost
+test:
+  database: webmachine_test
+  host: localhost
