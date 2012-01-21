@@ -22,9 +22,10 @@ module Exceptioner
           end
 
           app.add_route ['notices', :id], NoticeResource
-          app.add_route ['notices'], NoticeResource
+          app.add_route ['notices'], NoticeCollectionResource
+
           app.add_route ['errors', :id], ErrorResource
-          app.add_route ['errors'], ErrorResource
+          app.add_route ['errors'], ErrorCollectionResource
         end
       end
     end

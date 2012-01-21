@@ -14,7 +14,8 @@ resource "Errors" do
   get "/errors/:id" do
     parameter :id, "Error ID"
 
-    let(:id) { 1 }
+    let(:error) { create(:error) }
+    let(:id)    { error.id }
 
     example "Get a single error" do
       do_request do |response|

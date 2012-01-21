@@ -2,6 +2,7 @@ require "rack/test"
 
 class TestClient
   attr_reader :rack_test, :default_headers
+  delegate :header, to: :rack_test
 
   def initialize(app, headers = {})
     @rack_test = ::TestClient::RackTest.new(app)

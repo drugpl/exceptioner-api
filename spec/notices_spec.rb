@@ -14,7 +14,8 @@ resource "Notice" do
   get "/notices/:id" do
     parameter :id, "Notice ID"
 
-    let(:id) { 1 }
+    let(:notice) { create(:notice) }
+    let(:id)     { notice.id }
 
     example "Get a single notice" do
       do_request do |response|
@@ -23,16 +24,20 @@ resource "Notice" do
     end
   end
 
-  post "/notices" do
+  put "/notices" do
     parameter :message, "Error message"
     parameter :exception, "Error class"
     parameter :backtrace, "Error backtrace"
 
     scope_parameters :error, [:exception, :backtrace]
 
+    let(:message)   { "RuntimeError: no time to run error" }
+    let(:exception) { "RuntimeError" }
+    let(:backtrace) { "pebkac: 123" }
+
     example "Create notice with error" do
       do_request do |response|
-        response.should be_ok
+        response.status.should == 204
       end
     end
   end
