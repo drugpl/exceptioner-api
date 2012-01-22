@@ -1,20 +1,13 @@
 GIT
-  remote: git://github.com/brynary/rack-test.git
-  revision: fa7c6f9baf06e13352b42887e96c15c69bc10cb2
+  remote: git://github.com/pawelpacana/webmachine-test.git
+  revision: ded7701a6e7bea88f6d788e0600669e7d8ef7f23
   specs:
-    rack-test (0.6.1)
-      rack (>= 1.0)
+    webmachine-test (0.0.0)
+      webmachine
 
 GIT
-  remote: git://github.com/pawelpacana/rspec-api.git
-  revision: a836fb2b9880586edc25f9cc35e046c5e4638b39
-  specs:
-    rspec-api (0.0.1)
-      activesupport (~> 3.0)
-      rspec (~> 2.0)
-
-PATH
-  remote: /Users/sensei/Code/webmachine-ruby
+  remote: git://github.com/seancribbs/webmachine-ruby.git
+  revision: b7ec78d69ba4daebe07da8e778cb3cfd1da8a6a1
   specs:
     webmachine (0.3.0)
       i18n (>= 0.4.0)
@@ -28,12 +21,12 @@ GEM
       i18n (~> 0.6)
     activesupport (3.1.3)
       multi_json (~> 1.0)
+    ansi (1.4.1)
     bson (1.5.2)
     bson_ext (1.5.2)
       bson (= 1.5.2)
     builder (3.0.0)
     database_cleaner (0.7.0)
-    diff-lcs (1.1.3)
     factory_girl (2.4.1)
       activesupport
     i18n (0.6.0)
@@ -44,15 +37,8 @@ GEM
       mongo (~> 1.3)
       tzinfo (~> 0.3.22)
     multi_json (1.0.4)
-    rack (1.4.0)
-    rspec (2.8.0)
-      rspec-core (~> 2.8.0)
-      rspec-expectations (~> 2.8.0)
-      rspec-mocks (~> 2.8.0)
-    rspec-core (2.8.0)
-    rspec-expectations (2.8.0)
-      diff-lcs (~> 1.1.2)
-    rspec-mocks (2.8.0)
+    turn (0.8.2)
+      ansi (>= 1.2.2)
     tzinfo (0.3.31)
 
 PLATFORMS
@@ -63,6 +49,6 @@ DEPENDENCIES
   database_cleaner (~> 0.7.0)
   factory_girl (~> 2.4.1)
   mongoid (~> 2.4.0)
-  rack-test!
-  rspec-api!
+  turn (= 0.8.2)
   webmachine!
+  webmachine-test!

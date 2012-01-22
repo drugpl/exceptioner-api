@@ -24,8 +24,8 @@ class NoticeCollectionResource < Webmachine::Resource
   end
 
   def from_json
-    parsed = JSON.parse(request.body.to_s)
-    Notice.create(parsed)
+    params = JSON.parse(request.body.to_s)
+    Notice.create(params)
   end
 end
 
